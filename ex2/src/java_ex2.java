@@ -13,9 +13,8 @@ public class java_ex2
 	 */
 	public static void main(String [ ] args)
 	{
-		// Create the map from the file.
-		Map map = new Map(INPUT_FILE);
-		// Search for the goal.
-		map.search();
+		// Create the game from the file.
+		Game game = new Game(INPUT_FILE);
+		game.play();
 	}
 }

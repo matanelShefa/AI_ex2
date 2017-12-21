@@ -1,7 +1,7 @@
 /**
  * Created by Matanel on 28/11/2017.
- * This class represent the location in the world. The x & y values
- * are the coordinates language of the world.
+ * This class represent the location in the game. The x & y values
+ * are the coordinates language of the game.
  */
 public class Point
 {

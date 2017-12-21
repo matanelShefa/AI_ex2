@@ -3,10 +3,8 @@ import java.util.HashSet;
 
 /**
  * Created by Matanel on 29/11/2017.
- * This class represents the 'world' of the search problem.
- * It creates from the data in the file, and use the specified algorithm to search for the goal.
  */
-public class Map
+public class Map //TODO - Make it a 'Board' class instead of a 'Map'.
 {
 	// An offset array. Uses to create the children list for each node.
 	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
@@ -14,20 +12,17 @@ public class Map
 	// Members
 	private int m_size;
 	private String m_typeString;
-	private int m_numberOfNodes;
 
 	/**
-	 * Constructor. Creates the type-string and the algorithm name from the file.
+	 * Constructor. Creates the type-string from the file.
 	 * @param inputFile The name of the input file to read from.
 	 */
 	Map(String inputFile)
 	{
 		// Get the information from the parser
 		Parser parser = new Parser(inputFile);
-		String algorithm = parser.getAlgorithm();
 		m_size = parser.getSize();
 		m_typeString = parser.getTypeString();
-		m_numberOfNodes = 0;
 	}
 
 	/**
@@ -46,10 +41,8 @@ public class Map
 			// If this is a valid cell - add it to the children list.
 			if (child != null)
 			{
-				child.setCreationTime(m_numberOfNodes);
 				childrenList.add(child);
 			}
-			m_numberOfNodes++;
 		}
 		return childrenList;
 	}
@@ -68,11 +61,11 @@ public class Map
 		int toY = to.getYVal();
 
 		// If the 'to' cell is water - return false.
-		if (to.getType() == Cell.WATER)
+		if (to.getType() != Cell.EMPTY)
 		{
 			return false;
 		}
-
+/*
 		// Check the move according to the coordinates. If it's diagonally to water - return false.
 		if ((fromX - toX == 1))
 		{
@@ -97,6 +90,7 @@ public class Map
 				return (getType(fromX + 1, fromY) != Cell.WATER) && (getType(fromX, fromY - 1) != Cell.WATER);
 			}
 		}
+		*/
 		return true;
 	}
 
