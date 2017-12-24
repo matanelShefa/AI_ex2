@@ -11,8 +11,8 @@ public class Player
 		m_algorithm = algorithm;
 	}
 
-	public void play()
+	public void playOneTurn()
 	{
-		// TODO
+		m_algorithm.makeAMove();
 	}
 }

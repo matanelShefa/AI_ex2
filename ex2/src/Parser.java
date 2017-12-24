@@ -10,8 +10,7 @@ import java.io.IOException;
 public class Parser
 {
 	// Members
-	private int m_size;
-	private String m_typeString;
+	private String m_boardString;
 
 	/**
 	 * Constructor.
@@ -19,21 +18,17 @@ public class Parser
 	 */
 	Parser(String inputFile) //TODO - Make the changes for the new input format.
 	{
-		m_typeString = new String();
+		m_boardString = new String();
 		// Create the reader.
 		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
 		{
 			String fileCurrentLine;
-			m_size = Integer.parseInt(reader.readLine());
 
-			// Generate the type string.
-			while ((fileCurrentLine = reader.readLine()) != null)
-			{
-				for (int j = 0; j < m_size; j++)
+			// Generate the board string.
+				for (int i = 0; (fileCurrentLine = reader.readLine()) != null; i++)
 				{
-					m_typeString += fileCurrentLine.charAt(j);
+					m_boardString += fileCurrentLine.charAt(i);
 				}
-			}
 
 		} catch (IOException e)
 		{
@@ -45,11 +40,5 @@ public class Parser
 	 * Getter.
 	 * @return The type string
 	 */
-	public String getTypeString() { return m_typeString; }
-
-	/**
-	 * Getter.
-	 * @return The size of the world.
-	 */
-	public int getSize() { return m_size; }
+	public String getBoardString() { return m_boardString; }
 }

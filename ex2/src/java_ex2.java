@@ -5,6 +5,7 @@
  */
 public class java_ex2
 {
+	// Final
 	private static final String INPUT_FILE = "input.txt";
 
 	/**
@@ -15,6 +16,7 @@ public class java_ex2
 	{
 		// Create the game from the file.
 		Game game = new Game(INPUT_FILE);
+		System.out.println("Hello world");
 		game.play();
 	}
 }

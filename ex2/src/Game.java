@@ -9,7 +9,7 @@ public class Game
 	private static final String OUTPUT_FILE = "output.txt";
 
 	// Members
-	private Map m_map;
+	private Board m_board;
 	private Player m_blackPlayer;
 	private Player m_whitePlayer;
 	private Algorithm m_algorithm;
@@ -21,7 +21,7 @@ public class Game
 	public Game(String inputFile)
 	{
 		m_algorithm = new Minimax();
-		m_map = new Map(inputFile);
+		m_board = new Board(inputFile);
 		m_blackPlayer = new Player(m_algorithm);
 		m_whitePlayer = new Player(m_algorithm);
 	}

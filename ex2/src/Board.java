@@ -4,25 +4,24 @@ import java.util.HashSet;
 /**
  * Created by Matanel on 29/11/2017.
  */
-public class Map //TODO - Make it a 'Board' class instead of a 'Map'.
+public class Board
 {
 	// An offset array. Uses to create the children list for each node.
 	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
+	private static final int SIZE = 5;
 
 	// Members
-	private int m_size;
-	private String m_typeString;
+	private String m_boardString;
 
 	/**
 	 * Constructor. Creates the type-string from the file.
 	 * @param inputFile The name of the input file to read from.
 	 */
-	Map(String inputFile)
+	Board(String inputFile)
 	{
 		// Get the information from the parser
 		Parser parser = new Parser(inputFile);
-		m_size = parser.getSize();
-		m_typeString = parser.getTypeString();
+		m_boardString = parser.getBoardString();
 	}
 
 	/**
@@ -103,11 +102,11 @@ public class Map //TODO - Make it a 'Board' class instead of a 'Map'.
 	public char getType(int xVal, int yVal)
 	{
 		// Not a valid cell - return unknown type.
-		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))
+		if ((xVal < 0) || (yVal < 0) || (xVal >= SIZE) || (yVal >= SIZE))
 		{
 			return Cell.UNKNOWN_TYPE;
 		}
-		return m_typeString.charAt((xVal * m_size) + yVal);
+		return m_boardString.charAt((xVal * SIZE) + yVal);
 	}
 
 	/**
@@ -119,16 +118,10 @@ public class Map //TODO - Make it a 'Board' class instead of a 'Map'.
 	public Cell getCell(int xVal, int yVal)
 	{
 		// Not a valid cell - return null.
-		if ((xVal < 0) || (yVal < 0) || (xVal >= m_size) || (yVal >= m_size))
+		if ((xVal < 0) || (yVal < 0) || (xVal >= SIZE) || (yVal >= SIZE))
 		{
 			return null;
 		}
-		return new Cell(new Point(xVal, yVal), m_typeString.charAt((xVal * m_size) + yVal));
+		return new Cell(new Point(xVal, yVal), m_boardString.charAt((xVal * SIZE) + yVal));
 	}
-
-	/**
-	 * Getter.
-	 * @return The map size.
-	 */
-	public int getSize() { return m_size; }
 }
