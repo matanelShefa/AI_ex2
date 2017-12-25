@@ -8,19 +8,18 @@ public class Board
 {
 	// An offset array. Uses to create the children list for each node.
 	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
-	private static final int SIZE = 5;
+	public static final int SIZE = 5;
 
 	// Members
 	private String m_boardString;
 
 	/**
-	 * Constructor. Creates the type-string from the file.
-	 * @param inputFile The name of the input file to read from.
+	 * Constructor. Creates the board-string.
+	 * @param parser The parser that reads the board-string from the file.
 	 */
-	Board(String inputFile)
+	Board(Parser parser)
 	{
 		// Get the information from the parser
-		Parser parser = new Parser(inputFile);
 		m_boardString = parser.getBoardString();
 	}
 
@@ -123,5 +122,20 @@ public class Board
 			return null;
 		}
 		return new Cell(new Point(xVal, yVal), m_boardString.charAt((xVal * SIZE) + yVal));
+	}
+
+	// TODO - REMOVE!
+	public String toString()
+	{
+		String board = new String();
+		for (int i = 0; i < SIZE; i++)
+		{
+			for (int j = 0; j < SIZE; j++)
+			{
+				board += m_boardString.charAt((i * SIZE) + j);
+			}
+			board += '\n';
+		}
+		return board;
 	}
 }

@@ -4,15 +4,17 @@
 public class Player
 {
 	// Members
-	Algorithm m_algorithm;
+	private MinimaxAlgorithm m_algorithm;
+	private boolean m_isMaxPlayer;
 
-	public Player(Algorithm algorithm)
+	public Player(boolean isMaxPlayer, MinimaxAlgorithm algorithm)
 	{
 		m_algorithm = algorithm;
+		m_isMaxPlayer = isMaxPlayer;
 	}
 
-	public void playOneTurn()
+	public Cell playOneTurn()
 	{
-		m_algorithm.makeAMove();
+		return m_algorithm.makeAMove(m_isMaxPlayer);
 	}
 }

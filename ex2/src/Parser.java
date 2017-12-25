@@ -1,3 +1,5 @@
+import com.sun.org.apache.bcel.internal.generic.SIPUSH;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class Parser
 	 * Constructor.
 	 * @param inputFile The name of the input file.
 	 */
-	Parser(String inputFile) //TODO - Make the changes for the new input format.
+	Parser(String inputFile)
 	{
 		m_boardString = new String();
 		// Create the reader.
@@ -24,12 +26,14 @@ public class Parser
 		{
 			String fileCurrentLine;
 
-			// Generate the board string.
-				for (int i = 0; (fileCurrentLine = reader.readLine()) != null; i++)
+			while ((fileCurrentLine = reader.readLine()) != null)
+			{
+				// Generate the board string.
+				for (int i = 0; i < (Board.SIZE) ; i++)
 				{
 					m_boardString += fileCurrentLine.charAt(i);
 				}
-
+			}
 		} catch (IOException e)
 		{
 			e.printStackTrace();

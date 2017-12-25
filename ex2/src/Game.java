@@ -12,7 +12,8 @@ public class Game
 	private Board m_board;
 	private Player m_blackPlayer;
 	private Player m_whitePlayer;
-	private Algorithm m_algorithm;
+	private MinimaxAlgorithm m_algorithm;
+	private boolean m_gameOver;
 
 	/**
 	 * Constructor. Creates the map and the players.
@@ -20,15 +21,23 @@ public class Game
 	 */
 	public Game(String inputFile)
 	{
-		m_algorithm = new Minimax();
-		m_board = new Board(inputFile);
-		m_blackPlayer = new Player(m_algorithm);
-		m_whitePlayer = new Player(m_algorithm);
+		m_board = new Board(new Parser(inputFile));
+		m_algorithm = new MinimaxAlgorithm(m_board);
+		m_blackPlayer = new Player(true, m_algorithm);
+		m_whitePlayer = new Player(false, m_algorithm);
+		m_gameOver = false;
 	}
 
 	public void play()
 	{
-		//TODO
+		while (!m_gameOver)
+		{
+			m_blackPlayer.playOneTurn();
+			if (!m_gameOver)
+			{
+				m_whitePlayer.playOneTurn();
+			}
+		}
 	}
 
 	/**
@@ -45,4 +54,6 @@ public class Game
 			e.printStackTrace();
 		}
 	}
+
+	public Board getBoard() { return m_board; }
 }
