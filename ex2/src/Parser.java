@@ -6,8 +6,8 @@ import java.io.IOException;
 
 /**
  * Created by Matanel on 29/11/2017.
- * The Parser that read the input file and pass all the parameters
- * of the game to the map.
+ * The Parser that read the input file and pass the board of the game
+ * to the 'Game' class.
  */
 public class Parser
 {
@@ -25,7 +25,6 @@ public class Parser
 		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
 		{
 			String fileCurrentLine;
-
 			while ((fileCurrentLine = reader.readLine()) != null)
 			{
 				// Generate the board string.

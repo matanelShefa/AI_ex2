@@ -17,7 +17,6 @@ public class Cell
 	// Members
 	private Point m_point;
 	private char m_type;
-	private int m_heuristic;
 
 	/**
 	 * Constructor.
@@ -63,18 +62,6 @@ public class Cell
 	 * @return The cell type.
 	 */
 	public char getType() { return m_type; }
-
-	/**
-	 * Getter.
-	 * @return The cell heuristic.
-	 */
-	public int getHeuristic() { return m_heuristic; }
-
-	/**
-	 * Setter.
-	 * @param heuristicValue The new heuristic value.
-	 */
-	public void setHeuristic(int heuristicValue) { m_heuristic = heuristicValue; }
 
 	/**
 	 * Setter.
