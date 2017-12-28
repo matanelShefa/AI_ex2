@@ -2,6 +2,8 @@ import java.io.*;
 
 /**
  * Created by Matanel on 20/12/2017.
+ * This class represents the 'game' in this program. It's managing the game flow,
+ * and prints the winner name to the file at the end of it.
  */
 public class Game
 {
@@ -22,23 +24,34 @@ public class Game
 		m_algorithm = new MinimaxAlgorithm(m_board);
 	}
 
+	/**
+	 * The game flow. After every turn - check if the board is full.
+	 * If it's full - print the winner name to the output file.
+	 */
 	public void play()
 	{
 		while (!m_board.isFull())
 		{
-			// Black player turn
-			m_algorithm.minimax(m_board, MinimaxAlgorithm.SEARCH_DEPTH, true);
+			// Black player turn.
+			//TODO - REMOVE!!
+			System.out.println("========================= BLACK ============================");
+			m_board = new Board(m_algorithm.minimax(m_board.getBoardString(), MinimaxAlgorithm.SEARCH_DEPTH, true).getKey());
 
 			if (!m_board.isFull())
 			{
-				// White player turn
-				m_algorithm.minimax(m_board, MinimaxAlgorithm.SEARCH_DEPTH, false);
+				// White player turn.
+				//TODO - REMOVE!!
+				System.out.println("========================= WHITE ============================");
+				m_board = new Board(m_algorithm.minimax(m_board.getBoardString(), MinimaxAlgorithm.SEARCH_DEPTH, false).getKey());
 			}
 		}
+
+		// Board is full - the game is over.
+		printToOutput(m_board.getWinner());
 	}
 
 	/**
-	 * Print the winner-color-char to the output file.
+	 * Prints the winner-color-char to the output file.
 	 * @param winner The winner-color-char to print.
 	 */
 	public void printToOutput(char winner)
@@ -51,6 +64,4 @@ public class Game
 			e.printStackTrace();
 		}
 	}
-
-	public Board getBoard() { return m_board; }
 }

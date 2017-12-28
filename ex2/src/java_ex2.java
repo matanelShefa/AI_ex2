@@ -16,7 +16,7 @@ public class java_ex2
 	{
 		// Create the game from the file.
 		Game game = new Game(INPUT_FILE);
-		System.out.println(game.getBoard()); //TODO - remove!
+		//System.out.println(game.getBoard()); //TODO - remove!
 		game.play();
 	}
 }
