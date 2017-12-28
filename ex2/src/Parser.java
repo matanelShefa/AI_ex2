@@ -1,12 +1,10 @@
-import com.sun.org.apache.bcel.internal.generic.SIPUSH;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 /**
  * Created by Matanel on 29/11/2017.
- * The Parser that read the input file and pass the board of the game
+ * The Parser that reads the input file and passes the board of the game
  * to the 'Game' class.
  */
 public class Parser
@@ -15,7 +13,7 @@ public class Parser
 	private String m_boardString;
 
 	/**
-	 * Constructor.
+	 * Constructor. Reads the file.
 	 * @param inputFile The name of the input file.
 	 */
 	Parser(String inputFile)

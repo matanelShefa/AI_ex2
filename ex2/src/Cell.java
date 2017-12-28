@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.Objects;
-
 /**
  * Created by Matanel on 28/11/2017.
  * This class represents a cell in the game. Every cell have a point - it's coordinates,
@@ -62,10 +59,4 @@ public class Cell
 	 * @return The cell type.
 	 */
 	public char getType() { return m_type; }
-
-	/**
-	 * Setter.
-	 * @param type The new type of the cell.
-	 */
-	public void setType(char type) { m_type = type; }
 }

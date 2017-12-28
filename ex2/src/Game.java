@@ -15,8 +15,8 @@ public class Game
 	private MinimaxAlgorithm m_algorithm;
 
 	/**
-	 * Constructor. Creates the map and the players.
-	 * @param inputFile The name of the input file to read from.
+	 * Constructor. Creates the game board and the minimax algorithm.
+	 * @param inputFile The name of the input file to read the board from.
 	 */
 	public Game(String inputFile)
 	{

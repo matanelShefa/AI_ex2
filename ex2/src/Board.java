@@ -1,18 +1,18 @@
-import org.omg.CORBA.UNKNOWN;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Created by Matanel on 29/11/2017.
+ * This class represents the board of the game.
+ * It holds all the information about the current state of the board.
  */
 public class Board
 {
-	// An offset array. Uses to create the children list for each node.
-	private static final int offsetArray[][] = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
-	private static final char UNKNOWN_WINNER = ' ';
+	// Finals
 	public static final int SIZE = 5;
+	// An offset array. Uses to create the neighbours list for each node.
+	private static final int offsetArray[][] =
+			{ { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1}, { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
+	private static final char UNKNOWN_WINNER = ' ';
 
 	// Members
 	private String m_boardString;
@@ -28,14 +28,10 @@ public class Board
 	}
 
 	/**
-	 * Constructor. Creates the board-string.
-	 * @param boardString The parser that reads the board-string from the file.
+	 * Constructor. Sets the board-string.
+	 * @param boardString The board-string.
 	 */
-	Board(String boardString)
-	{
-		// Get the information from the parser
-		m_boardString = boardString;
-	}
+	Board(String boardString) { m_boardString = boardString; }
 
 	/**
 	 * Create the neighbours list for the cells.
@@ -60,8 +56,8 @@ public class Board
 	}
 
 	/**
-	 * Check if going from 'from' to 'to' is a valid move.
-	 * @param cell The destination.
+	 * Check if 'cell' is a valid move at this state of the game.
+	 * @param cell The cell.
 	 * @return If this move is a valid move - true , else - false.
 	 */
 	public boolean isValidCell(Cell cell)
@@ -82,6 +78,7 @@ public class Board
 				return true;
 			}
 		}
+		// No neighbours - return false.
 		return false;
 	}
 
@@ -117,6 +114,11 @@ public class Board
 		return new Cell(new Point(xVal, yVal), m_boardString.charAt((xVal * SIZE) + yVal));
 	}
 
+	/**
+	 * This function is the heuristic function of the game. It's calculates the
+	 * heuristic utility of this specific board state for the player.
+	 * @return The heuristic value for this specific board state.
+	 */
 	public int getHeuristic()
 	{
 		int black = 0;
@@ -125,6 +127,7 @@ public class Board
 		int sideWhite = 0;
 		char type;
 
+		// If the board is full - the game is over and there is a winner.
 		if (isFull())
 		{
 			char winner = getWinner();
@@ -138,6 +141,7 @@ public class Board
 			}
 		}
 
+		// The board is not full yet - count the cells by color.
 		for (int i = 0; i < SIZE; i++)
 		{
 			for (int j = 0; j < SIZE; j++)
@@ -162,19 +166,24 @@ public class Board
 				}
 			}
 		}
+		// Calculates the heuristic value - side cells count twice because they are more efficient.
 		return ((black - white) + (sideBlack - sideWhite));
 	}
 
+	/**
+	 * Generate the successors of this board state.
+	 * @param color the color of the current player to play.
+	 * @return The successors list.
+	 */
 	public ArrayList<Board> getSuccessors(char color)
 	{
 		//TODO - REMOVE
 		//System.out.println("Board:\n" + this);
 		ArrayList<Board> successorsList = new ArrayList();
 		String newBoardString = new String();
-		Board successor;
-
 		int index;
 
+		// Search for an empty cell and check if it's a valid move.
 		for (int i = 0; i < SIZE; i++)
 		{
 			for (int j = 0; j < SIZE; j++)
@@ -182,6 +191,7 @@ public class Board
 				index = (i * SIZE) + j;
 				if (m_boardString.charAt(index) == Cell.EMPTY && isValidCell(new Cell(new Point(i, j), Cell.EMPTY)))
 				{
+					// A valid move - create the next board according to this move and add it to the list.
 					newBoardString = m_boardString.substring(0, index) + color + m_boardString.substring(index + 1);
 					successorsList.add(new Board(newBoardString).UpdatePlayerMove(color, i, j));
 				}
@@ -190,6 +200,13 @@ public class Board
 		return successorsList;
 	}
 
+	/**
+	 * Update the board about the play. Give all the cells the right color.
+	 * @param playerColor the color of the current player.
+	 * @param row the 'play' cell raw index.
+	 * @param col the 'play' cell column index.
+	 * @return The updated board.
+	 */
 	public Board UpdatePlayerMove(char playerColor, int row, int col)
 	{
 		char opponentColor;
@@ -197,6 +214,7 @@ public class Board
 		int newRow;
 		int newCol;
 
+		// Get the opponent color.
 		if (playerColor == Cell.BLACK)
 		{
 			opponentColor = Cell.WHITE;
@@ -205,8 +223,11 @@ public class Board
 		{
 			opponentColor = Cell.BLACK;
 		}
+
+		// Update the changes at every direction.
 		for (int i = 0; i < offsetArray.length; i++)
 		{
+			// Check for changes at every direction.
 			if (CheckDirection(row, col, i, playerColor))
 			{
 				newRow = row + offsetArray[i][1];
@@ -216,8 +237,10 @@ public class Board
 				while (((newRow >= 0) && (newRow < SIZE) && (newCol >= 0) && (newCol < SIZE)) &&
 						m_boardString.charAt(index) == opponentColor)
 				{
+					// Change the board.
 					m_boardString = m_boardString.substring(0, index) + playerColor + m_boardString.substring(index + 1);
 
+					// Move to the next cell
 					newRow += offsetArray[i][1];
 					newCol += offsetArray[i][0];
 					index = (newRow * SIZE) + newCol;
@@ -227,6 +250,14 @@ public class Board
 		return new Board(m_boardString);
 	}
 
+	/**
+	 * Check for changes at a given direction.
+	 * @param row the 'play' cell raw index.
+	 * @param col the 'play' cell column index.
+	 * @param offsetIndex the direction to check.
+	 * @param playerColor the color of the current player.
+	 * @return
+	 */
 	public boolean CheckDirection(int row, int col, int offsetIndex, char playerColor)
 	{
 		// Set the new values.
@@ -254,6 +285,7 @@ public class Board
 			return false;
 		}
 
+		// Valid square - continue to the next square.
 		while ((nextSquare != playerColor) && (nextSquare != Cell.EMPTY))
 		{
 			// Set the new values.
@@ -278,6 +310,10 @@ public class Board
 		return false;
 	}
 
+	/**
+	 * Tell if the board is full.
+	 * @return If the board is full - true. Else - false.
+	 */
 	public boolean isFull()
 	{
 		for (int i = 0; i < SIZE * SIZE; i++)
@@ -290,6 +326,10 @@ public class Board
 		return true;
 	}
 
+	/**
+	 * Tell who won the game.
+	 * @return The winner-color-char.
+	 */
 	public char getWinner()
 	{
 		if (!isFull())
@@ -301,6 +341,7 @@ public class Board
 		int black = 0;
 		int white = 0;
 
+		// Count the cells by color.
 		for (int i = 0; i < SIZE * SIZE; i++)
 		{
 			type = m_boardString.charAt(i);
@@ -314,6 +355,7 @@ public class Board
 			}
 		}
 
+		// Return the winner color.
 		if (black > white)
 		{
 			return Cell.BLACK;
